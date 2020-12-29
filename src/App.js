@@ -3,8 +3,8 @@ import './App.css';
 
 import Board from './components/Board';
 
-const PLAYER_1 = 'X';
-const PLAYER_2 = 'O';
+const PLAYER_1 = 'x';
+const PLAYER_2 = 'o';
 
 const generateSquares = () => {
   const squares = [];
@@ -45,6 +45,7 @@ const App = () => {
     (player === PLAYER_1) ? setPlayer(PLAYER_2) : setPlayer(PLAYER_1);
 
     setSquares(squares);
+    checkForWinner();
   };
 
 
@@ -74,6 +75,9 @@ const App = () => {
     diagonal = [squares[0][2], squares[1][1], squares[2][0]]
     checkForThree(...diagonal);
 
+    if(squares.flat().every((element) => element.value !== '')) {
+      setWinner('TIE')
+    }
   }
 
   const resetGame = () => {
@@ -84,7 +88,7 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
-        <h2>The winner is ... -- Fill in for wave 3 </h2>
+        <h2>Winner is {winner}</h2>
         <button>Reset Game</button>
       </header>
       <main>
