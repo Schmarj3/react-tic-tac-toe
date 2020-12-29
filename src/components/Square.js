@@ -9,7 +9,7 @@ const Square = (props) => {
       id: props.id,
       value: props.value
     }
-    console.log('clicked');
+    console.log('clicked', `id: ${props.id}`);
     props.onClickCallback(updatedSquare);
   }
 

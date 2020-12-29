@@ -3,8 +3,8 @@ import './App.css';
 
 import Board from './components/Board';
 
-const PLAYER_1 = 'X';
-const PLAYER_2 = 'O';
+const PLAYER_1 = 'x';
+const PLAYER_2 = 'o';
 
 const generateSquares = () => {
   const squares = [];
@@ -30,6 +30,7 @@ const App = () => {
   // This starts state off as a 2D array of JS objects with
   // empty value and unique ids.
   const [squares, setSquares] = useState(generateSquares());
+  const [currentPlayer, setCurrentPlayer] = useState(PLAYER_1);
 
   // Wave 2
   // You will need to create a method to change the square 
@@ -38,13 +39,22 @@ const App = () => {
   const updateSquares = (updatedSquare) => {
     const newSquares = [];
 
-    squares.forEach((square) => {
-      console.log(square)
-      if (square.id === updatedSquare.id) {
-        newSquares.push(updatedSquare);
-      } else {
-        newSquares.push(square);
-      }
+    squares.forEach((row) => {
+      console.log(row)
+      let newRow = []
+      row.forEach((square) => {
+        console.log(square)
+        if (square.id === updatedSquare.id && square.value == "") {
+          updatedSquare.value = currentPlayer;
+          newRow.push(updatedSquare);
+          
+          let player = currentPlayer === PLAYER_1 ? PLAYER_2 : PLAYER_1;
+          setCurrentPlayer(player)
+        } else {
+          newRow.push(square);
+        }
+      });
+      newSquares.push(newRow)
     });
 
     setSquares(newSquares);
