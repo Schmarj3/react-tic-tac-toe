@@ -44,7 +44,7 @@ const App = () => {
       let newRow = []
       row.forEach((square) => {
         console.log(square)
-        if (square.id === updatedSquare.id && square.value == "") {
+        if (square.id === updatedSquare.id && square.value == '') {
           updatedSquare.value = currentPlayer;
           newRow.push(updatedSquare);
           
