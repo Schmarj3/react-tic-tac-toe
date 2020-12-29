@@ -34,18 +34,20 @@ const App = () => {
   const [winner, setWinner] = useState('')
 
   const onClickCallback = (squareID) => {
-    if (squareID < 3) {
-      squares[0][squareID].value = player;
-    } else if (squareID < 6) {
-      squares[1][squareID - 3].value = player;
-    } else {
-      squares[2][squareID - 6].value = player;
+    if(!winner) {
+      if (squareID < 3) {
+        squares[0][squareID].value = player;
+      } else if (squareID < 6) {
+        squares[1][squareID - 3].value = player;
+      } else {
+        squares[2][squareID - 6].value = player;
+      };
+
+      (player === PLAYER_1) ? setPlayer(PLAYER_2) : setPlayer(PLAYER_1);
+
+      setSquares(squares);
+      checkForWinner();
     };
-
-    (player === PLAYER_1) ? setPlayer(PLAYER_2) : setPlayer(PLAYER_1);
-
-    setSquares(squares);
-    checkForWinner();
   };
 
 
