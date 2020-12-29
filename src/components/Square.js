@@ -13,11 +13,11 @@ const Square = (props) => {
       value: props.value
     }
     console.log('clicked')
-    props.onClick(updatedSquare);
+    props.onClickCallback(updatedSquare);
   }
 
   return <button
-    className="square" onClick={props.onClickCallback}
+    className="square" onClick={onClickCallback}
   >
     {props.value}
   </button>
