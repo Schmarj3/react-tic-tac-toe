@@ -49,7 +49,7 @@ const App = () => {
 
 
   const checkForWinner = () => {
-    const checkForThrees = (first, second, third) => {
+    const checkForThree = (first, second, third) => {
       if(first.value === second.value && second.value === third.value) {
         if(first.value === PLAYER_1) {
           setWinner(PLAYER_1);
@@ -58,6 +58,21 @@ const App = () => {
         } 
       }
     }
+
+    for (let i = 0; i < squares.length; i++) {
+      checkForThree(...squares[i])
+    };
+    
+    for(let i = 0; i < squares.length; i ++) {
+      const column = [squares[0][i], squares[1][i], squares[2][i]]
+      checkForThree(...column)
+    };
+
+    let diagonal = [squares[0][0], squares[1][1], squares[2][2]]
+    checkForThree(...diagonal);
+
+    diagonal = [squares[0][2], squares[1][1], squares[2][0]]
+    checkForThree(...diagonal);
 
   }
 
