@@ -31,6 +31,7 @@ const App = () => {
   // empty value and unique ids.
   const [squares, setSquares] = useState(generateSquares());
   const [player, setPlayer] = useState(PLAYER_1);
+  const [winner, setWinner] = useState('')
 
   const onClickCallback = (squareID) => {
     if (squareID < 3) {
@@ -48,15 +49,15 @@ const App = () => {
 
 
   const checkForWinner = () => {
-    // Complete in Wave 3
-    // You will need to:
-    // 1. Go accross each row to see if 
-    //    3 squares in the same row match
-    //    i.e. same value
-    // 2. Go down each column to see if
-    //    3 squares in each column match
-    // 3. Go across each diagonal to see if 
-    //    all three squares have the same value.
+    const checkForThrees = (first, second, third) => {
+      if(first.value === second.value && second.value === third.value) {
+        if(first.value === PLAYER_1) {
+          setWinner(PLAYER_1);
+        } else if (first.value === PLAYER_2) {
+          setWinner(PLAYER_2);
+        } 
+      }
+    }
 
   }
 
