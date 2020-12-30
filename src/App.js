@@ -27,8 +27,6 @@ const generateSquares = () => {
 
 const App = () => {
 
-  // This starts state off as a 2D array of JS objects with
-  // empty value and unique ids.
   const [squares, setSquares] = useState(generateSquares());
   const [player, setPlayer] = useState(PLAYER_1);
   const [winner, setWinner] = useState('')
