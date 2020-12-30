@@ -71,9 +71,9 @@ const App = () => {
       let fullRow = row.map( (obj => obj.value));
 
       if (fullRow.every(isX)) {
-        winner = 'X';
+        winner = PLAYER_1;
       } else if (fullRow.every(isO)) {
-        winner = 'O';
+        winner = PLAYER_2;
       }
     });
 
@@ -89,9 +89,9 @@ const App = () => {
       fullColumn.push(squares[rowBase + 2][col].value);
 
       if (fullColumn.every(isX)) {
-        winner = 'X';
+        winner = PLAYER_1;
       } else if (fullColumn.every(isO)) {
-        winner = 'O';
+        winner = PLAYER_2;
       }
     };
 
@@ -112,9 +112,9 @@ const App = () => {
     });
 
     if (diagonalTopLeft.every(isX) || diagonalTopRight.every(isX)) {
-      winner = 'X';
+      winner = PLAYER_1;
     } else if (diagonalTopLeft.every(isO) || diagonalTopRight.every(isO)) {
-      winner = 'O';
+      winner = PLAYER_2;
     }
   };
 
