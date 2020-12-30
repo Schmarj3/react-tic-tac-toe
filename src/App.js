@@ -5,7 +5,6 @@ import Board from './components/Board';
 
 const PLAYER_1 = 'x';
 const PLAYER_2 = 'o';
-let winner = 'No Winner Yet!'
 
 const generateSquares = () => {
   const squares = [];
@@ -29,6 +28,7 @@ const generateSquares = () => {
 const App = () => {
   const [squares, setSquares] = useState(generateSquares());
   const [currentPlayer, setCurrentPlayer] = useState(PLAYER_1);
+  const [winner, setWinner] = useState('')
 
   const updateSquares = (updatedSquare) => {
     const newSquares = [];
@@ -48,31 +48,28 @@ const App = () => {
       });
       newSquares.push(newRow);
     });
+    
 
     setSquares(newSquares);
-    checkForWinner();
+    checkForWinner(newSquares);
   }
 
 
-  const checkForWinner = () => {
+  const checkForWinner = (board) => {
     // Complete in Wave 3
     // You will need to:
     // 1. Go accross each row to see if 
     //    3 squares in the same row match
     //    i.e. same value
     const isX = (value) => value === 'x'; 
-    const isO = (value) => value === 'o'; 
+    const isO = (value) => value === 'o';
 
-    [...squares].forEach((row)=> {
-      let fullRow = row.map( (obj => obj.value));
-      console.log(fullRow.every(isX));
-
+    [...board].forEach((row)=> {
+      let fullRow = row.map( (obj => obj.value))
       if (fullRow.every(isX)) {
-        winner = 'X';
+        setWinner(PLAYER_1);
       } else if (fullRow.every(isO)) {
-        winner = 'O';
-      } else {
-        winner = 'No Winner Yet!'
+        setWinner(PLAYER_2);
       }
     });
 
@@ -88,7 +85,6 @@ const App = () => {
       fullColumn.push(squares[rowBase + 2][col]);
 
       if (fullColumn.every === currentPlayer) {
-        console.log(`Check Column: ${fullColumn}`)
         return currentPlayer;
       }
     };
@@ -110,11 +106,8 @@ const App = () => {
     });
 
     if (diagonalTopLeft.every === currentPlayer || diagonalTopRight.every === currentPlayer) {
-      console.log(`Check Left Diagonal: ${diagonalTopLeft}`)
-      console.log(`Check Right Diagonal: ${diagonalTopRight}`)
       return currentPlayer;
     }
-    return winner
   };
 
   const resetGame = () => {
@@ -125,7 +118,7 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
-        <h2>The winner is {winner} </h2>
+        <h2>Winner is {winner} </h2>
         <button>Reset Game</button>
       </header>
       <main>
