@@ -1,3 +1,4 @@
+import { queryAllByTestId } from '@testing-library/react';
 import React, { useState } from 'react';
 import './App.css';
 
@@ -26,32 +27,28 @@ const generateSquares = () => {
 }
 
 const App = () => {
-
-  // This starts state off as a 2D array of JS objects with
-  // empty value and unique ids.
-  const [squares, setSquares] = useState(generateSquares());
   const [player, setPlayer] = useState(PLAYER_1);
+  const [squares, setSquares] = useState(generateSquares());
   const [winner, setWinner] = useState('')
 
-  const onClickCallback = (squareID) => {
-    if(!winner) {
-      if (squareID < 3) {
-        squares[0][squareID].value = player;
-      } else if (squareID < 6) {
-        squares[1][squareID - 3].value = player;
-      } else {
-        squares[2][squareID - 6].value = player;
-      };
-
-      (player === PLAYER_1) ? setPlayer(PLAYER_2) : setPlayer(PLAYER_1);
-
-      setSquares(squares);
-      checkForWinner();
-    };
+  const onClickCallback = (squareID, value) => {
+  
+    if (winner || value) return;
+    const updatedSquares = []
+    for (let i = 0; i < 3; i++) {
+      let row = []
+      for (let j = 0; j < 3; j++) {
+        (squares[i][j].id === squareID) ? row.push({id: squareID, value: player}) : row.push(squares[i][j])
+      } 
+      updatedSquares.push(row)
+    }
+    (player === PLAYER_1) ? setPlayer(PLAYER_2) : setPlayer(PLAYER_1);
+    setSquares(updatedSquares);
+    checkForWinner(updatedSquares);
   };
 
 
-  const checkForWinner = () => {
+  const checkForWinner = (squares) => {
     const checkForThree = (first, second, third) => {
       if(first.value === second.value && second.value === third.value) {
         if(first.value === PLAYER_1) {

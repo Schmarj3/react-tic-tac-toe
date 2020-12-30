@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import './Square.css'
 
 const Square = (props) => {
+
   return <button
-    className="square" key={props.id} onClick={() => {if(!props.value) props.onClickCallback(props.id)}}
+    className="square" key={props.id} onClick={() => {props.onClickCallback(props.id, props.value)}}
   >
     {props.value}
   </button>
