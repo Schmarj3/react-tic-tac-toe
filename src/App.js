@@ -33,8 +33,8 @@ const App = () => {
   const [player, setPlayer] = useState(PLAYER_1);
   const [winner, setWinner] = useState('')
 
-  const onClickCallback = (squareID) => {
-    if(!winner) {
+  const onClickCallback = (squareID, value) => {
+    if(!winner && !value) {
       if (squareID < 3) {
         squares[0][squareID].value = player;
       } else if (squareID < 6) {
@@ -67,15 +67,14 @@ const App = () => {
     };
     
     for(let i = 0; i < squares.length; i ++) {
-      const column = [squares[0][i], squares[1][i], squares[2][i]]
-      checkForThree(...column)
+      checkForThree(squares[0][i], squares[1][i], squares[2][i])
     };
 
-    let diagonal = [squares[0][0], squares[1][1], squares[2][2]]
-    checkForThree(...diagonal);
+    // first diagonal
+    checkForThree(squares[0][0], squares[1][1], squares[2][2]);
 
-    diagonal = [squares[0][2], squares[1][1], squares[2][0]]
-    checkForThree(...diagonal);
+    // second diagonal
+    checkForThree(squares[0][2], squares[1][1], squares[2][0]);
 
     if(squares.flat().every((element) => element.value !== '')) {
       setWinner('TIE')
