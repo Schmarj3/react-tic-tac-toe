@@ -5,7 +5,7 @@ import Board from './components/Board';
 
 const PLAYER_1 = 'x';
 const PLAYER_2 = 'o';
-let winner = 'No Winner Yet!'
+let winner = ''
 
 const generateSquares = () => {
   const squares = [];
@@ -31,30 +31,34 @@ const App = () => {
   const [currentPlayer, setCurrentPlayer] = useState(PLAYER_1);
 
   const updateSquares = (updatedSquare) => {
-    const newSquares = [];
+    let newSquares = [];
 
-    squares.forEach((row) => {
-      let newRow = [];
-      row.forEach((square) => {
-        if (square.id === updatedSquare.id && square.value === '') {
-          updatedSquare.value = currentPlayer;
-          newRow.push(updatedSquare);
-          
-          let player = currentPlayer === PLAYER_1 ? PLAYER_2 : PLAYER_1;
-          setCurrentPlayer(player);
-        } else {
-          newRow.push(square);
-        }
+    if (winner) {
+      newSquares = squares;
+    } else {
+      squares.forEach((row) => {
+        let newRow = [];
+        row.forEach((square) => {
+          if (square.id === updatedSquare.id && square.value === '') {
+            updatedSquare.value = currentPlayer;
+            newRow.push(updatedSquare);
+            
+            let player = currentPlayer === PLAYER_1 ? PLAYER_2 : PLAYER_1;
+            setCurrentPlayer(player);
+          } else {
+            newRow.push(square);
+          }
+        });
+        newSquares.push(newRow);
       });
-      newSquares.push(newRow);
-    });
+    }
 
     setSquares(newSquares);
-    checkForWinner();
+    checkForWinner(newSquares);
   }
 
 
-  const checkForWinner = () => {
+  const checkForWinner = (squares) => {
     // Complete in Wave 3
     // You will need to:
     // 1. Go accross each row to see if 
@@ -65,31 +69,29 @@ const App = () => {
 
     [...squares].forEach((row)=> {
       let fullRow = row.map( (obj => obj.value));
-      console.log(fullRow.every(isX));
 
       if (fullRow.every(isX)) {
         winner = 'X';
       } else if (fullRow.every(isO)) {
         winner = 'O';
-      } else {
-        winner = 'No Winner Yet!'
       }
     });
 
 
     // 2. Go down each column to see if
     //    3 squares in each column match
-    let fullColumn = []
     let rowBase = 0
 
     for (let col = 0; col < 3; col += 1) {
-      fullColumn.push(squares[rowBase][col]);
-      fullColumn.push(squares[rowBase + 1][col]);
-      fullColumn.push(squares[rowBase + 2][col]);
+      let fullColumn = []
+      fullColumn.push(squares[rowBase][col].value);
+      fullColumn.push(squares[rowBase + 1][col].value);
+      fullColumn.push(squares[rowBase + 2][col].value);
 
-      if (fullColumn.every === currentPlayer) {
-        console.log(`Check Column: ${fullColumn}`)
-        return currentPlayer;
+      if (fullColumn.every(isX)) {
+        winner = 'X';
+      } else if (fullColumn.every(isO)) {
+        winner = 'O';
       }
     };
 
@@ -102,19 +104,18 @@ const App = () => {
     let rightColumn = 2
 
     squares.forEach((row) => {
-      diagonalTopLeft.push(row[leftColumn]);
+      diagonalTopLeft.push(row[leftColumn].value);
       leftColumn += 1;
 
-      diagonalTopRight.push(row[rightColumn])
+      diagonalTopRight.push(row[rightColumn].value)
       rightColumn -= 1;
     });
 
-    if (diagonalTopLeft.every === currentPlayer || diagonalTopRight.every === currentPlayer) {
-      console.log(`Check Left Diagonal: ${diagonalTopLeft}`)
-      console.log(`Check Right Diagonal: ${diagonalTopRight}`)
-      return currentPlayer;
+    if (diagonalTopLeft.every(isX) || diagonalTopRight.every(isX)) {
+      winner = 'X';
+    } else if (diagonalTopLeft.every(isO) || diagonalTopRight.every(isO)) {
+      winner = 'O';
     }
-    return winner
   };
 
   const resetGame = () => {
@@ -125,7 +126,7 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
-        <h2>The winner is {winner} </h2>
+        <h2> {winner === '' ? 'No winner yet!' : `Winner is ${winner}` } </h2>
         <button>Reset Game</button>
       </header>
       <main>
