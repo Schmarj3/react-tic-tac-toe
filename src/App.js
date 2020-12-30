@@ -5,7 +5,6 @@ import Board from './components/Board';
 
 const PLAYER_1 = 'x';
 const PLAYER_2 = 'o';
-let winner = 'No Winner Yet!'
 
 const generateSquares = () => {
   const squares = [];
@@ -29,28 +28,19 @@ const generateSquares = () => {
 const App = () => {
   const [squares, setSquares] = useState(generateSquares());
   const [currentPlayer, setCurrentPlayer] = useState(PLAYER_1);
+  const [winner, setWinner] = useState('');
 
-  const updateSquares = (updatedSquare) => {
-    const newSquares = [];
+  const onClickCallback = (id) => {
+    if (id < 3) {
+      squares[0][id].value = currentPlayer;
+    } else if (id < 6) {
+      squares[1][id - 3].value = currentPlayer;
+    } else {
+      squares[2][id - 6].value = currentPlayer;
+    }
 
-    squares.forEach((row) => {
-      let newRow = [];
-      row.forEach((square) => {
-        if (square.id === updatedSquare.id && square.value === '') {
-          updatedSquare.value = currentPlayer;
-          newRow.push(updatedSquare);
-          
-          let player = currentPlayer === PLAYER_1 ? PLAYER_2 : PLAYER_1;
-          setCurrentPlayer(player);
-        } else {
-          newRow.push(square);
-        }
-      });
-      newSquares.push(newRow);
-    });
-
-    setSquares(newSquares);
-    checkForWinner();
+    // (currentPlayer === PLAYER_1) ? setCurrentPlayer(PLAYER_2) : setCurrentPlayer(PLAYER_1);
+    setSquares(squares);
   }
 
 
@@ -68,11 +58,9 @@ const App = () => {
       console.log(fullRow.every(isX));
 
       if (fullRow.every(isX)) {
-        winner = 'X';
+        setWinner(PLAYER_1);
       } else if (fullRow.every(isO)) {
-        winner = 'O';
-      } else {
-        winner = 'No Winner Yet!'
+        setWinner(PLAYER_2);
       }
     });
 
@@ -115,6 +103,10 @@ const App = () => {
       return currentPlayer;
     }
     return winner
+
+
+
+    // helper method for the win condition
   };
 
   const resetGame = () => {
@@ -125,11 +117,11 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
-        <h2>The winner is {winner} </h2>
+        <h2>Winner is {winner} </h2>
         <button>Reset Game</button>
       </header>
       <main>
-        <Board squares={squares} onClickCallback={updateSquares}/>
+        <Board squares={squares} onClickCallback={onClickCallback}/>
       </main>
     </div>
   );
