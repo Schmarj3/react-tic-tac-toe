@@ -64,15 +64,14 @@ const App = () => {
     };
     
     for(let i = 0; i < squares.length; i ++) {
-      const column = [squares[0][i], squares[1][i], squares[2][i]]
-      checkForThree(...column)
+      checkForThree(squares[0][i], squares[1][i], squares[2][i])
     };
 
-    let diagonal = [squares[0][0], squares[1][1], squares[2][2]]
-    checkForThree(...diagonal);
+    // first diagonal
+    checkForThree(squares[0][0], squares[1][1], squares[2][2]);
 
-    diagonal = [squares[0][2], squares[1][1], squares[2][0]]
-    checkForThree(...diagonal);
+    // second diagonal
+    checkForThree(squares[0][2], squares[1][1], squares[2][0]);
 
     if(squares.flat().every((element) => element.value !== '')) {
       setWinner('TIE')
